@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flower</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header>
+        <h1>FLOWER</h1>
+
+        <nav>
+            <a href="loja.html">LOJA</a>
+            <a href="sobre.html">SOBRE</a>
+            <a href="contato.html">CONTATO</a>
+            <a href="#cart" id="cart-link">
+                SACOLA (<span id="cart-count">0</span>)
+            </a>
+        </nav>
+    </header>
+
+    <section class="hero">
+
+        <img src="imagens/banner-oficial.png" alt="Campanha da marca FLOWER">
+
+        <div class="hero-info">
+            <span>NEW DROP</span>
+            <h2>COLLECTION 01</h2>
+            <p>WEAR YOUR ATTITUDE</p>
+            <a href="loja.html" class="btn">SHOP NOW →</a>
+        </div>
+
+        <div class="hero-number">
+            01 / 03
+        </div>
+
+    </section>
+
+    <section class="shop">
+
+        <div class="shop-header">
+            <span>SHOP</span>
+            <h2>NEW ARRIVALS</h2>
+        </div>
+
+        <div class="categories">
+            <button>ALL</button>
+            <button>CAMISETAS</button>
+            <button>CALÇAS</button>
+            <button>BONÉS</button>
+        </div>
+
+        <!-- Produtos carregados pela Medusa -->
+        <div class="products"></div>
+
+    </section>
+
+
+    <!-- Fundo escuro atrás da sacola -->
+    <div class="cart-overlay" id="cart-overlay"></div>
+
+
+    <!-- Sacola lateral -->
+    <aside class="cart" id="cart">
+
+        <div class="cart-header">
+
+            <div>
+                <span>SACOLA</span>
+                <h2>SEU CARRINHO</h2>
+            </div>
+
+            <button class="cart-close" id="cart-close">
+                ×
+            </button>
+
+        </div>
+
+
+        <!-- Produtos adicionados -->
+        <div id="cart-items">
+            <p>Sua sacola está vazia.</p>
+        </div>
+
+
+        <!-- Resumo da compra -->
+        <div class="cart-summary" id="cart-summary"></div>
+
+    </aside>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

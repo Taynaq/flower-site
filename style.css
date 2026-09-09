@@ -1,0 +1,544 @@
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: #000000;
+    color: white;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 45px;
+    background-color: rgba(0, 0, 0, 0.25);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+h1 {
+    font-size: 28px;
+    letter-spacing: 7px;
+    margin: 0;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin-left: 30px;
+    font-size: 13px;
+    letter-spacing: 2px;
+    transition: 0.3s;
+    position: relative;
+}
+
+nav a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -5px;
+    width: 0%;
+    height: 2px;
+    background-color: #f5a900;
+    transition: 0.3s;
+}
+
+nav a:hover {
+    color: #f5a900;
+}
+
+nav a:hover::after {
+    width: 100%;
+}
+
+
+/* =========================
+   HERO
+========================= */
+
+section.hero {
+    position: relative;
+    height: calc(100vh - 81px);
+    overflow: hidden;
+}
+
+.hero img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.hero-info {
+    position: absolute;
+    right: 4%;
+    bottom: 5%;
+    z-index: 2;
+    text-align: right;
+}
+
+.hero-info span {
+    font-size: 14px;
+    letter-spacing: 5px;
+    color: #f5a900;
+}
+
+.hero-info h2 {
+    font-size: 40px;
+    letter-spacing: 7px;
+    margin: 8px 0;
+}
+
+.hero-info p {
+    font-size: 14px;
+    letter-spacing: 4px;
+    margin: 0 0 25px;
+}
+
+.hero-number {
+    position: absolute;
+    left: 5%;
+    bottom: 6%;
+    z-index: 2;
+    font-size: 12px;
+    letter-spacing: 3px;
+}
+
+
+/* =========================
+   BOTÃO DO HERO
+========================= */
+
+.btn {
+    display: inline-block;
+    color: white;
+    text-decoration: none;
+    border: 1px solid white;
+    padding: 12px 22px;
+    letter-spacing: 2px;
+    transition: 0.3s;
+}
+
+.btn:hover {
+    background-color: #f5a900;
+    border-color: #f5a900;
+    color: #000;
+}
+
+
+/* =========================
+   SHOP
+========================= */
+
+.shop {
+    padding: 100px 45px;
+    background-color: #000;
+}
+
+.shop-header {
+    margin-bottom: 35px;
+}
+
+.shop-header span {
+    color: #f5a900;
+    font-size: 12px;
+    letter-spacing: 4px;
+}
+
+.shop-header h2 {
+    font-size: 42px;
+    letter-spacing: 5px;
+    margin: 10px 0 0;
+}
+
+
+/* =========================
+   CATEGORIAS
+========================= */
+
+.categories {
+    display: flex;
+    gap: 30px;
+    border-bottom: 1px solid #222;
+    padding-bottom: 15px;
+}
+
+.categories button {
+    background: transparent;
+    color: white;
+    border: none;
+    padding: 0;
+    font-size: 13px;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: 0.3s;
+    position: relative;
+}
+
+.categories button:hover {
+    color: #f5a900;
+}
+
+
+/* =========================
+   PRODUTOS
+========================= */
+
+.products {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin-top: 60px;
+}
+
+.product-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.product-image {
+    height: 430px;
+    background-color: #0d0d0d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    transition: transform 0.5s ease;
+}
+
+
+/* Zoom suave na imagem */
+
+.product-card:hover .product-image img {
+    transform: scale(1.05);
+}
+
+.product-info {
+    padding: 20px 0;
+}
+
+.product-info h3 {
+    font-size: 14px;
+    letter-spacing: 2px;
+    margin: 0 0 8px;
+    text-transform: uppercase;
+}
+
+.product-info p {
+    font-size: 13px;
+    color: #999;
+    margin: 0;
+}
+
+
+/* =========================
+   BOTÃO ADD TO BAG
+========================= */
+
+.add-bag {
+    margin-top: 16px;
+    width: 100%;
+    background-color: transparent;
+    color: white;
+    border: 1px solid #444;
+    padding: 13px 18px;
+    font-size: 11px;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.add-bag:hover {
+    background-color: #f5a900;
+    border-color: #f5a900;
+    color: #000;
+}
+
+
+/* =========================
+   FUNDO DA SACOLA
+========================= */
+
+.cart-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.3s;
+    z-index: 20;
+}
+
+.cart-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+
+/* =========================
+   SACOLA LATERAL
+========================= */
+
+.cart {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 420px;
+    height: 100vh;
+    background-color: #080808;
+    border-left: 1px solid #222;
+    padding: 30px;
+    box-sizing: border-box;
+    transform: translateX(100%);
+    transition: 0.3s;
+    z-index: 21;
+    overflow-y: auto;
+}
+
+.cart.active {
+    transform: translateX(0);
+}
+
+
+/* =========================
+   CABEÇALHO DA SACOLA
+========================= */
+
+.cart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 1px solid #222;
+    padding-bottom: 20px;
+    margin-bottom: 25px;
+}
+
+.cart-header span {
+    color: #f5a900;
+    font-size: 11px;
+    letter-spacing: 4px;
+}
+
+.cart-header h2 {
+    font-size: 24px;
+    letter-spacing: 3px;
+    margin: 8px 0 0;
+}
+
+.cart-close {
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 30px;
+    cursor: pointer;
+    line-height: 1;
+    transition: 0.3s;
+}
+
+.cart-close:hover {
+    color: #f5a900;
+}
+
+
+/* =========================
+   PRODUTO DENTRO DA SACOLA
+========================= */
+
+.cart-item {
+    padding: 25px 0;
+    border-bottom: 1px solid #222;
+}
+
+.cart-product {
+    display: flex;
+    gap: 18px;
+    align-items: flex-start;
+}
+
+.cart-product-image {
+    width: 90px;
+    height: 110px;
+    object-fit: contain;
+    background-color: #111;
+    flex-shrink: 0;
+}
+
+.cart-product-info {
+    flex: 1;
+}
+
+.cart-item h3 {
+    font-size: 17px;
+    letter-spacing: 2px;
+    margin: 0 0 10px;
+}
+
+.cart-item p {
+    color: #999;
+    font-size: 13px;
+    margin: 6px 0;
+}
+
+
+/* =========================
+   CONTROLE DE QUANTIDADE
+========================= */
+
+.quantity-controls {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin: 18px 0;
+}
+
+.quantity-controls button {
+    width: 32px;
+    height: 32px;
+    background: transparent;
+    color: white;
+    border: 1px solid #555;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.quantity-controls button:hover {
+    background-color: #f5a900;
+    border-color: #f5a900;
+    color: #000;
+}
+
+.quantity-controls span {
+    min-width: 20px;
+    text-align: center;
+}
+
+
+/* =========================
+   REMOVER PRODUTO
+========================= */
+
+.remove-item {
+    background: transparent;
+    border: none;
+    color: #777;
+    font-size: 11px;
+    letter-spacing: 2px;
+    cursor: pointer;
+    padding: 0;
+    transition: 0.3s;
+}
+
+.remove-item:hover {
+    color: #f5a900;
+}
+
+
+/* =========================
+   RESUMO DA SACOLA
+========================= */
+
+.cart-summary {
+    margin-top: 30px;
+    padding-top: 25px;
+    border-top: 1px solid #222;
+}
+
+.summary-line,
+.summary-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.summary-line {
+    color: #999;
+    font-size: 12px;
+    letter-spacing: 2px;
+    margin-bottom: 15px;
+}
+
+.summary-total {
+    color: white;
+    font-size: 17px;
+    letter-spacing: 2px;
+}
+
+
+/* =========================
+   BOTÃO FINALIZAR PEDIDO
+========================= */
+
+.checkout-button {
+    width: 100%;
+    margin-top: 25px;
+    padding: 14px;
+    background-color: #f5a900;
+    color: #000;
+    border: 1px solid #f5a900;
+    font-size: 11px;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.checkout-button:hover {
+    background-color: transparent;
+    color: #f5a900;
+}
+
+
+/* =========================
+   SACOLA VAZIA
+========================= */
+
+.empty-cart {
+    text-align: center;
+    padding: 60px 10px;
+}
+
+.empty-cart h3 {
+    font-size: 15px;
+    letter-spacing: 3px;
+    margin-bottom: 12px;
+}
+
+.empty-cart p {
+    color: #777;
+    font-size: 13px;
+    margin-bottom: 25px;
+}
+
+.continue-shopping {
+    background: transparent;
+    color: white;
+    border: 1px solid #555;
+    padding: 12px 18px;
+    font-size: 11px;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.continue-shopping:hover {
+    background-color: #f5a900;
+    border-color: #f5a900;
+    color: #000;
+}
