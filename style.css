@@ -198,53 +198,103 @@ section.hero {
 .products {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 30px;
+    gap: 45px 25px;
     margin-top: 60px;
 }
+
+
+/* =========================
+   CARD DO PRODUTO
+========================= */
 
 .product-card {
     position: relative;
     overflow: hidden;
+    transition: transform 0.4s ease;
 }
 
+.product-card:hover {
+    transform: translateY(-4px);
+}
+
+
+/* =========================
+   IMAGEM DO PRODUTO
+========================= */
+
 .product-image {
-    height: 430px;
-    background-color: #0d0d0d;
+    position: relative;
+    height: 470px;
+    background-color: #0a0a0a;
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
 }
 
+
+/* Linha dourada */
+
+.product-image::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: #f5a900;
+    z-index: 2;
+    transition: width 0.5s ease;
+}
+
+.product-card:hover .product-image::before {
+    width: 100%;
+}
+
+
+/* Imagem */
+
 .product-image img {
     width: 100%;
     height: 100%;
     object-fit: contain;
     display: block;
-    transition: transform 0.5s ease;
+    transition: transform 0.7s ease;
 }
 
 
-/* Zoom suave na imagem */
+/* Zoom */
 
 .product-card:hover .product-image img {
-    transform: scale(1.05);
+    transform: scale(1.06);
 }
 
+
+/* =========================
+   INFORMAÇÕES DO PRODUTO
+========================= */
+
 .product-info {
-    padding: 20px 0;
+    padding: 20px 0 0;
 }
 
 .product-info h3 {
-    font-size: 14px;
-    letter-spacing: 2px;
-    margin: 0 0 8px;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 2.5px;
+    margin: 0 0 9px;
     text-transform: uppercase;
+    transition: color 0.3s ease;
+}
+
+.product-card:hover .product-info h3 {
+    color: #f5a900;
 }
 
 .product-info p {
     font-size: 13px;
-    color: #999;
+    color: #888;
+    letter-spacing: 1px;
     margin: 0;
 }
 
@@ -254,22 +304,58 @@ section.hero {
 ========================= */
 
 .add-bag {
-    margin-top: 16px;
+    position: relative;
+    margin-top: 18px;
     width: 100%;
     background-color: transparent;
     color: white;
-    border: 1px solid #444;
-    padding: 13px 18px;
-    font-size: 11px;
-    letter-spacing: 2px;
+    border: 1px solid #333;
+    padding: 14px 18px;
+    font-size: 10px;
+    letter-spacing: 3px;
     cursor: pointer;
-    transition: 0.3s ease;
+    overflow: hidden;
+
+    transition:
+        color 0.3s ease,
+        border-color 0.3s ease,
+        background-color 0.3s ease;
 }
 
 .add-bag:hover {
     background-color: #f5a900;
     border-color: #f5a900;
     color: #000;
+}
+
+
+/* =========================
+   SEM IMAGEM
+========================= */
+
+.no-image {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #555;
+    font-size: 11px;
+    letter-spacing: 3px;
+}
+
+
+/* =========================
+   CARREGANDO PRODUTOS
+========================= */
+
+.loading-products {
+    grid-column: 1 / -1;
+    text-align: center;
+    color: #666;
+    font-size: 11px;
+    letter-spacing: 3px;
+    padding: 60px 0;
 }
 
 
@@ -541,4 +627,60 @@ section.hero {
     background-color: #f5a900;
     border-color: #f5a900;
     color: #000;
+}
+
+
+/* =========================
+   RESPONSIVIDADE
+========================= */
+
+@media (max-width: 900px) {
+
+    .products {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 35px 20px;
+    }
+
+    .product-image {
+        height: 400px;
+    }
+}
+
+
+@media (max-width: 600px) {
+
+    header {
+        padding: 18px 20px;
+    }
+
+    nav a {
+        margin-left: 12px;
+        font-size: 10px;
+    }
+
+    .shop {
+        padding: 70px 20px;
+    }
+
+    .shop-header h2 {
+        font-size: 32px;
+    }
+
+    .categories {
+        gap: 18px;
+        overflow-x: auto;
+    }
+
+    .products {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .product-image {
+        height: 420px;
+    }
+
+    .cart {
+        width: 100%;
+    }
 }
