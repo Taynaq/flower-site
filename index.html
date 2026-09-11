@@ -230,6 +230,74 @@
      JAVASCRIPT
 ========================= -->
 
+
+<!-- MODAL DE LOGIN -->
+
+<div class="account-modal" id="account-modal">
+
+    <div class="account-overlay" id="account-overlay"></div>
+
+    <div class="account-card">
+
+        <button
+            class="account-close"
+            id="account-close"
+            type="button"
+        >
+            ×
+        </button>
+
+        <span>FLOWER ACCOUNT</span>
+
+        <h2>LOGIN</h2>
+
+        <form id="modal-login-form">
+
+            <label for="modal-email">
+                E-MAIL
+            </label>
+
+            <input
+                type="email"
+                id="modal-email"
+                placeholder="seu@email.com"
+                required
+            >
+
+            <label for="modal-senha">
+                SENHA
+            </label>
+
+            <input
+                type="password"
+                id="modal-senha"
+                placeholder="Sua senha"
+                required
+            >
+
+            <button
+                type="submit"
+                class="account-login-button"
+            >
+                LOGIN
+            </button>
+
+        </form>
+
+        <p class="account-create">
+            Ainda não possui uma conta?
+
+            <a href="./cadastro.html">
+                CREATE ACCOUNT
+            </a>
+        </p>
+
+    </div>
+
+</div>
+
+
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="script.js"></script>
 

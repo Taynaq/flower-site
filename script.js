@@ -1,21 +1,24 @@
+
 /* =========================
    CONFIGURAÇÃO DO SUPABASE
 ========================= */
 const SUPABASE_URL = "https://awnswqbjspexvroatkyk.supabase.co";
 const SUPABASE_KEY = "sb_publishable_23V70RTA0STgz3bT0_uuDA_-TE8E7nt";
 
-
-const supabaseClient = window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-);
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
 
 
 /* =========================
    CONFIGURAÇÃO DA MEDUSA
 ========================= */
 
-const MEDUSA_URL = "https://flower-commerce.onrender.com";
+const MEDUSA_URL =
+    "https://flower-commerce.onrender.com";
+
 
 const MEDUSA_PUBLISHABLE_KEY = "pk_bfdf9ae998aac94cf927890930f718533d9e59455d551e9121669806e4d5fcf4";
 
@@ -70,10 +73,13 @@ const carrinho = [];
 
 function formatarPreco(valor) {
 
-    return valor.toLocaleString("pt-BR", {
-        style: "currency",
-        currency: "BRL"
-    });
+    return valor.toLocaleString(
+        "pt-BR",
+        {
+            style: "currency",
+            currency: "BRL"
+        }
+    );
 
 }
 
@@ -92,7 +98,8 @@ function obterPreco(produto) {
     }
 
     const valor =
-        variante.calculated_price?.calculated_amount;
+        variante.calculated_price
+            ?.calculated_amount;
 
     if (typeof valor !== "number") {
         return 0;
@@ -170,7 +177,8 @@ async function verificarUsuario() {
         const {
             data,
             error
-        } = await supabaseClient.auth.getUser();
+        } =
+            await supabaseClient.auth.getUser();
 
 
         if (error) {
@@ -249,7 +257,10 @@ function atualizarMenuUsuario(usuario) {
             "ACCOUNT";
 
         accountLink.href =
-            "./login.html";
+            "#";
+
+        accountLink.dataset.loggedIn =
+            "false";
 
         return;
 
@@ -274,8 +285,298 @@ function atualizarMenuUsuario(usuario) {
         nome.toUpperCase();
 
     accountLink.href =
-        "./conta.html";
+        "#";
 
+    accountLink.dataset.loggedIn =
+        "true";
+
+}
+
+
+/* =========================
+   MODAL ACCOUNT
+========================= */
+
+function abrirModalAccount() {
+
+    const modal =
+        document.querySelector(
+            "#account-modal"
+        );
+
+    if (!modal) {
+
+        console.warn(
+            "Elemento #account-modal não encontrado."
+        );
+
+        return;
+
+    }
+
+    modal.classList.add(
+        "active"
+    );
+
+}
+
+
+function fecharModalAccount() {
+
+    const modal =
+        document.querySelector(
+            "#account-modal"
+        );
+
+    if (!modal) {
+        return;
+    }
+
+    modal.classList.remove(
+        "active"
+    );
+
+}
+
+
+/* =========================
+   CONFIGURAR MODAL ACCOUNT
+========================= */
+
+function configurarModalAccount() {
+
+    const accountLink =
+        document.querySelector(
+            "#account-link"
+        );
+
+    const accountClose =
+        document.querySelector(
+            "#account-close"
+        );
+
+    const accountOverlay =
+        document.querySelector(
+            "#account-overlay"
+        );
+
+
+    /* =========================
+       ABRIR ACCOUNT
+    ========================= */
+
+    if (accountLink) {
+
+        accountLink.addEventListener(
+            "click",
+            function (event) {
+
+                event.preventDefault();
+
+                abrirModalAccount();
+
+            }
+        );
+
+    }
+
+
+    /* =========================
+       FECHAR NO X
+    ========================= */
+
+    if (accountClose) {
+
+        accountClose.addEventListener(
+            "click",
+            function () {
+
+                fecharModalAccount();
+
+            }
+        );
+
+    }
+
+
+    /* =========================
+       FECHAR CLICANDO FORA
+    ========================= */
+
+    if (accountOverlay) {
+
+        accountOverlay.addEventListener(
+            "click",
+            function () {
+
+                fecharModalAccount();
+
+            }
+        );
+
+    }
+
+
+    /* =========================
+       FECHAR COM ESC
+    ========================= */
+
+    document.addEventListener(
+        "keydown",
+        function (event) {
+
+            if (
+                event.key === "Escape"
+            ) {
+
+                fecharModalAccount();
+
+            }
+
+        }
+    );
+
+}
+
+
+/* =========================
+   LOGIN PELO MODAL
+========================= */
+
+function configurarLoginModal() {
+
+    const loginForm =
+        document.querySelector(
+            "#modal-login-form"
+        );
+
+
+    if (!loginForm) {
+
+        console.warn(
+            "Formulário #modal-login-form não encontrado."
+        );
+
+        return;
+
+    }
+
+
+    loginForm.addEventListener(
+        "submit",
+        async function (event) {
+
+            event.preventDefault();
+
+
+            const email =
+                document.querySelector(
+                    "#modal-email"
+                )?.value.trim();
+
+
+            const senha =
+                document.querySelector(
+                    "#modal-senha"
+                )?.value;
+
+
+            if (!email || !senha) {
+
+                alert(
+                    "Preencha o e-mail e a senha."
+                );
+
+                return;
+
+            }
+
+
+            try {
+
+                const {
+                    data,
+                    error
+                } =
+                    await supabaseClient.auth
+                        .signInWithPassword({
+
+                            email: email,
+
+                            password: senha
+
+                        });
+
+
+                if (error) {
+
+                    console.error(
+                        "Erro no login:",
+                        error
+                    );
+
+                    alert(
+                        "Não foi possível entrar: " +
+                        error.message
+                    );
+
+                    return;
+
+                }
+
+
+                console.log(
+                    "Login realizado:",
+                    data
+                );
+
+
+                /* =========================
+                   ATUALIZAR MENU
+                ========================= */
+
+                const usuario =
+                    data?.user || null;
+
+                atualizarMenuUsuario(
+                    usuario
+                );
+
+
+                /* =========================
+                   LIMPAR FORMULÁRIO
+                ========================= */
+
+                loginForm.reset();
+
+
+                /* =========================
+                   FECHAR MODAL
+                ========================= */
+
+                fecharModalAccount();
+
+
+                alert(
+                    "Login realizado com sucesso!"
+                );
+
+
+            } catch (erro) {
+
+                console.error(
+                    "Erro inesperado no login:",
+                    erro
+                );
+
+                alert(
+                    "Ocorreu um erro ao tentar entrar."
+                );
+
+            }
+
+        }
+    );
 
 }
 
@@ -305,26 +606,27 @@ async function carregarProdutos() {
         }
 
 
-        const resposta = await fetch(
+        const resposta =
+            await fetch(
 
-            `${MEDUSA_URL}/store/products?fields=*variants.calculated_price,*images,*variants.images,*categories&region_id=${MEDUSA_REGION_ID}`,
+                `${MEDUSA_URL}/store/products?fields=*variants.calculated_price,*images,*variants.images,*categories&region_id=${MEDUSA_REGION_ID}`,
 
-            {
-                method: "GET",
+                {
+                    method: "GET",
 
-                headers: {
+                    headers: {
 
-                    "x-publishable-api-key":
-                        MEDUSA_PUBLISHABLE_KEY,
+                        "x-publishable-api-key":
+                            MEDUSA_PUBLISHABLE_KEY,
 
-                    "Content-Type":
-                        "application/json"
+                        "Content-Type":
+                            "application/json"
+
+                    }
 
                 }
 
-            }
-
-        );
+            );
 
 
         if (!resposta.ok) {
@@ -415,7 +717,9 @@ async function carregarBanners() {
 
         const resposta =
             await fetch(
+
                 `${MEDUSA_URL}/store/custom`,
+
                 {
                     method: "GET",
 
@@ -430,6 +734,7 @@ async function carregarBanners() {
                     }
 
                 }
+
             );
 
 
@@ -481,7 +786,9 @@ async function carregarBanners() {
         try {
 
             dados =
-                JSON.parse(textoResposta);
+                JSON.parse(
+                    textoResposta
+                );
 
         } catch (erroJson) {
 
@@ -505,7 +812,9 @@ async function carregarBanners() {
 
 
         banners =
-            Array.isArray(dados.banners)
+            Array.isArray(
+                dados.banners
+            )
                 ? dados.banners
                 : [];
 
@@ -559,12 +868,10 @@ function mostrarBanners() {
             "#banner-container"
         );
 
-
     const bannerNumber =
         document.querySelector(
             "#banner-number"
         );
-
 
     const bannerDots =
         document.querySelector(
@@ -594,7 +901,10 @@ function mostrarBanners() {
     }
 
 
-    if (bannerAtual >= banners.length) {
+    if (
+        bannerAtual >=
+        banners.length
+    ) {
 
         bannerAtual = 0;
 
@@ -772,7 +1082,8 @@ function proximoBanner() {
 
 
     if (
-        bannerAtual >= banners.length
+        bannerAtual >=
+        banners.length
     ) {
 
         bannerAtual = 0;
@@ -992,7 +1303,9 @@ function mostrarProdutos(
             );
 
 
-    if (produtosFiltrados.length === 0) {
+    if (
+        produtosFiltrados.length === 0
+    ) {
 
         productsContainer.innerHTML = `
             <p class="loading-products">
@@ -1215,7 +1528,8 @@ function adicionarAoCarrinho(produto) {
         carrinho.find(
             function (item) {
 
-                return item.id === produto.id;
+                return item.id ===
+                    produto.id;
 
             }
         );
@@ -1334,7 +1648,7 @@ if (cartLink) {
 
 
 /* =========================
-   BOTÃO FECHAR
+   BOTÃO FECHAR SACOLA
 ========================= */
 
 if (cartClose) {
@@ -1352,7 +1666,7 @@ if (cartClose) {
 
 
 /* =========================
-   CLICAR FORA
+   CLICAR FORA DA SACOLA
 ========================= */
 
 if (cartOverlay) {
@@ -1421,7 +1735,10 @@ function atualizarQuantidadeSacola() {
 
 function mostrarCarrinho() {
 
-    if (!cartItems || !cartSummary) {
+    if (
+        !cartItems ||
+        !cartSummary
+    ) {
 
         console.error(
             "Elementos do carrinho não encontrados."
@@ -1625,7 +1942,6 @@ function mostrarCarrinho() {
 
                         produto.quantidade++;
 
-
                         atualizarQuantidadeSacola();
 
                         mostrarCarrinho();
@@ -1652,7 +1968,6 @@ function mostrarCarrinho() {
                             index,
                             1
                         );
-
 
                         atualizarQuantidadeSacola();
 
@@ -1761,6 +2076,20 @@ function mostrarCarrinho() {
 console.log(
     "TESTE FLOWER 123"
 );
+
+
+/* =========================
+   CONFIGURAR ACCOUNT
+========================= */
+
+configurarModalAccount();
+
+
+/* =========================
+   CONFIGURAR LOGIN DO MODAL
+========================= */
+
+configurarLoginModal();
 
 
 /* =========================
