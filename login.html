@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>FLOWER | Login</title>
+
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+
+    <header>
+        <h1>FLOWER</h1>
+
+        <nav>
+            <a href="./index.html">SHOP</a>
+            <a href="./sobre.html">ABOUT</a>
+            <a href="./contato.html">CONTACT</a>
+        </nav>
+    </header>
+
+
+    <main class="login">
+
+        <div class="login-header">
+            <span>FLOWER ACCOUNT</span>
+
+            <h2>LOGIN</h2>
+        </div>
+
+
+        <form id="login-form">
+
+            <label for="email">E-MAIL</label>
+
+            <input
+                type="email"
+                id="email"
+                autocomplete="email"
+                placeholder="seu@email.com"
+                required
+            >
+
+
+            <label for="senha">SENHA</label>
+
+            <input
+                type="password"
+                id="senha"
+                autocomplete="current-password"
+                placeholder="Sua senha"
+                required
+            >
+
+
+            <button
+                type="submit"
+                class="login-button"
+            >
+                LOGIN
+            </button>
+
+        </form>
+
+
+        <p class="login-cadastro">
+            Ainda não possui uma conta?
+
+            <a href="./cadastro.html">
+                CREATE ACCOUNT
+            </a>
+        </p>
+
+    </main>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script src="./login.js"></script>
+
+</body>
+
+</html>

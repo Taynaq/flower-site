@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>FLOWER | Criar conta</title>
+
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+
+    <header>
+        <h1>FLOWER</h1>
+
+        <nav>
+            <a href="./index.html">SHOP</a>
+            <a href="./sobre.html">ABOUT</a>
+            <a href="./contato.html">CONTACT</a>
+        </nav>
+    </header>
+
+    <main class="cadastro">
+
+        <div class="cadastro-header">
+            <span>FLOWER ACCOUNT</span>
+            <h2>CREATE ACCOUNT</h2>
+        </div>
+
+        <form id="cadastro-form">
+
+            <label for="nome">NOME</label>
+
+            <input
+                type="text"
+                id="nome"
+                placeholder="Seu nome"
+                required
+            >
+
+            <label for="email">E-MAIL</label>
+
+            <input
+                type="email"
+                id="email"
+                name="email"
+                autocomplete="off"
+                placeholder="seu@email.com"
+                required
+            >
+
+            <label for="senha">SENHA</label>
+
+           <input
+    type="password"
+    id="senha"
+    autocomplete="new-password"
+    placeholder="Mínimo de 8 caracteres"
+    required
+>
+
+            <label for="confirmar-senha">CONFIRMAR SENHA</label>
+
+           <input
+    type="password"
+    id="confirmar-senha"
+    autocomplete="new-password"
+    placeholder="Digite a senha novamente"
+    required
+>
+
+            <button
+                type="submit"
+                class="cadastro-button"
+            >
+                CREATE ACCOUNT
+            </button>
+
+        </form>
+
+        <p class="cadastro-login">
+            Já possui uma conta?
+            <a href="./login.html">LOGIN</a>
+        </p>
+
+   </main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="./cadastro.js"></script>
+
+</body>
+</html>

@@ -1,4 +1,17 @@
 /* =========================
+   CONFIGURAÇÃO DO SUPABASE
+========================= */
+const SUPABASE_URL = "https://awnswqbjspexvroatkyk.supabase.co";
+const SUPABASE_KEY = "sb_publishable_23V70RTA0STgz3bT0_uuDA_-TE8E7nt";
+
+
+const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
+
+
+/* =========================
    CONFIGURAÇÃO DA MEDUSA
 ========================= */
 
@@ -142,6 +155,127 @@ function obterImagem(produto) {
 
 
     return "";
+
+}
+
+
+/* =========================
+   VERIFICAR USUÁRIO LOGADO
+========================= */
+
+async function verificarUsuario() {
+
+    try {
+
+        const {
+            data,
+            error
+        } = await supabaseClient.auth.getUser();
+
+
+        if (error) {
+
+            console.error(
+                "Erro ao verificar usuário:",
+                error
+            );
+
+            atualizarMenuUsuario(null);
+
+            return;
+
+        }
+
+
+        const usuario =
+            data?.user || null;
+
+
+        console.log(
+            "Usuário atual:",
+            usuario
+        );
+
+
+        atualizarMenuUsuario(
+            usuario
+        );
+
+
+    } catch (erro) {
+
+        console.error(
+            "Erro ao verificar sessão:",
+            erro
+        );
+
+        atualizarMenuUsuario(null);
+
+    }
+
+}
+
+
+/* =========================
+   ATUALIZAR MENU DO USUÁRIO
+========================= */
+
+function atualizarMenuUsuario(usuario) {
+
+    const accountLink =
+        document.querySelector(
+            "#account-link"
+        );
+
+
+    if (!accountLink) {
+
+        console.warn(
+            "Elemento #account-link não encontrado."
+        );
+
+        return;
+
+    }
+
+
+    /* =========================
+       USUÁRIO NÃO LOGADO
+    ========================= */
+
+    if (!usuario) {
+
+        accountLink.textContent =
+            "ACCOUNT";
+
+        accountLink.href =
+            "./login.html";
+
+        return;
+
+    }
+
+
+    /* =========================
+       OBTER NOME
+    ========================= */
+
+    const nome =
+        usuario.user_metadata?.nome ||
+        usuario.email?.split("@")[0] ||
+        "ACCOUNT";
+
+
+    /* =========================
+       MOSTRAR NOME
+    ========================= */
+
+    accountLink.textContent =
+        nome.toUpperCase();
+
+    accountLink.href =
+        "./conta.html";
+
 
 }
 
@@ -343,6 +477,7 @@ async function carregarBanners() {
 
         let dados;
 
+
         try {
 
             dados =
@@ -375,10 +510,6 @@ async function carregarBanners() {
                 : [];
 
 
-        /* =========================
-           ORDENAR BANNERS
-        ========================= */
-
         banners.sort(
             function (a, b) {
 
@@ -398,6 +529,7 @@ async function carregarBanners() {
 
 
         bannerAtual = 0;
+
 
         mostrarBanners();
 
@@ -427,10 +559,12 @@ function mostrarBanners() {
             "#banner-container"
         );
 
+
     const bannerNumber =
         document.querySelector(
             "#banner-number"
         );
+
 
     const bannerDots =
         document.querySelector(
@@ -459,10 +593,6 @@ function mostrarBanners() {
 
     }
 
-
-    /* =========================
-       PROTEÇÃO DO ÍNDICE
-    ========================= */
 
     if (bannerAtual >= banners.length) {
 
@@ -497,10 +627,6 @@ function mostrarBanners() {
 
     }
 
-
-    /* =========================
-       CONTEÚDO DO BANNER
-    ========================= */
 
     bannerContainer.innerHTML = `
 
@@ -549,21 +675,17 @@ function mostrarBanners() {
     `;
 
 
-    /* =========================
-       CONTADOR
-    ========================= */
-
     if (bannerNumber) {
 
         bannerNumber.textContent =
-            `${String(bannerAtual + 1).padStart(2, "0")} / ${String(banners.length).padStart(2, "0")}`;
+            `${String(
+                bannerAtual + 1
+            ).padStart(2, "0")} / ${String(
+                banners.length
+            ).padStart(2, "0")}`;
 
     }
 
-
-    /* =========================
-       PONTINHOS
-    ========================= */
 
     if (bannerDots) {
 
@@ -834,7 +956,9 @@ if (hero) {
    MOSTRAR PRODUTOS
 ========================= */
 
-function mostrarProdutos(categoria = "all") {
+function mostrarProdutos(
+    categoria = "all"
+) {
 
     if (!productsContainer) {
 
@@ -849,10 +973,6 @@ function mostrarProdutos(categoria = "all") {
 
     productsContainer.innerHTML = "";
 
-
-    /* =========================
-       FILTRAR PRODUTOS
-    ========================= */
 
     const produtosFiltrados =
         categoria === "all"
@@ -872,10 +992,6 @@ function mostrarProdutos(categoria = "all") {
             );
 
 
-    /* =========================
-       NENHUM PRODUTO
-    ========================= */
-
     if (produtosFiltrados.length === 0) {
 
         productsContainer.innerHTML = `
@@ -888,10 +1004,6 @@ function mostrarProdutos(categoria = "all") {
 
     }
 
-
-    /* =========================
-       CRIAR CARDS
-    ========================= */
 
     produtosFiltrados.forEach(
         function (produto) {
@@ -963,10 +1075,6 @@ function mostrarProdutos(categoria = "all") {
             `;
 
 
-            /* =========================
-               IMAGEM DO PRODUTO
-            ========================= */
-
             const imagemElemento =
                 card.querySelector(
                     ".product-image img"
@@ -1018,10 +1126,6 @@ function mostrarProdutos(categoria = "all") {
             );
 
 
-            /* =========================
-               BOTÃO ADD TO BAG
-            ========================= */
-
             const botao =
                 card.querySelector(
                     ".add-bag"
@@ -1068,6 +1172,7 @@ botoesCategorias.forEach(
 
                 const categoria =
                     botao.dataset.category;
+
 
                 mostrarProdutos(
                     categoria
@@ -1332,10 +1437,6 @@ function mostrarCarrinho() {
     cartSummary.innerHTML = "";
 
 
-    /* =========================
-       CARRINHO VAZIO
-    ========================= */
-
     if (carrinho.length === 0) {
 
         cartItems.innerHTML = `
@@ -1389,10 +1490,6 @@ function mostrarCarrinho() {
 
     let total = 0;
 
-
-    /* =========================
-       PRODUTOS DO CARRINHO
-    ========================= */
 
     carrinho.forEach(
         function (produto, index) {
@@ -1477,10 +1574,6 @@ function mostrarCarrinho() {
             `;
 
 
-            /* =========================
-               DIMINUIR QUANTIDADE
-            ========================= */
-
             const botaoMenos =
                 item.querySelector(
                     ".quantity-minus"
@@ -1518,10 +1611,6 @@ function mostrarCarrinho() {
             }
 
 
-            /* =========================
-               AUMENTAR QUANTIDADE
-            ========================= */
-
             const botaoMais =
                 item.querySelector(
                     ".quantity-plus"
@@ -1546,10 +1635,6 @@ function mostrarCarrinho() {
 
             }
 
-
-            /* =========================
-               REMOVER
-            ========================= */
 
             const botaoRemover =
                 item.querySelector(
@@ -1659,7 +1744,7 @@ function mostrarCarrinho() {
 
 
                 window.location.href =
-                    "/checkout.html";
+                    "./checkout.html";
 
             }
         );
@@ -1678,8 +1763,23 @@ console.log(
 );
 
 
+/* =========================
+   VERIFICAR LOGIN
+========================= */
+
+verificarUsuario();
+
+
+/* =========================
+   CARREGAR PRODUTOS
+========================= */
+
 carregarProdutos();
 
+
+/* =========================
+   CARREGAR BANNERS
+========================= */
 
 console.log(
     "Iniciando carregamento dos banners..."
