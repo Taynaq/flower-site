@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -11,159 +10,91 @@
 
 <body>
 
-    <header>
-        <h1>FLOWER</h1>
 
-        <nav>
-            <a href="loja.html">LOJA</a>
-            <a href="sobre.html">SOBRE</a>
-            <a href="contato.html">CONTATO</a>
+<header>
+    <h1>FLOWER</h1>
 
-            <a href="#cart" id="cart-link">
-                SACOLA (<span id="cart-count">0</span>)
-            </a>
-        </nav>
-    </header>
+    <nav>
+        <a href="loja.html">LOJA</a>
+        <a href="sobre.html">SOBRE</a>
+        <a href="contato.html">CONTATO</a>
 
+        <a href="#cart" id="cart-link">
+            SACOLA (<span id="cart-count">0</span>)
+        </a>
+    </nav>
+</header>
 
-    <!-- =========================
-         BANNER / HERO
-    ========================== -->
+<!-- BANNER / HERO -->
+<section class="hero" id="hero">
 
-    <section class="hero" id="hero">
+    <!-- O JavaScript irá colocar os banners aqui -->
+    <div id="banner-container"></div>
 
-        <!--
-            Este espaço será preenchido
-            pelos banners cadastrados na Medusa.
-        -->
+</section>
 
-        <div id="banner-container">
+<!-- PRODUTOS -->
+<section class="shop">
 
-            <!-- Banner atual mantido como segurança -->
-            <img
-                src="imagens/banner-oficial.png"
-                alt="Campanha da marca FLOWER"
-            >
-
-            <div class="hero-info">
-
-                <span>NEW DROP</span>
-
-                <h2>COLLECTION 01</h2>
-
-                <p>WEAR YOUR ATTITUDE</p>
-
-                <a href="loja.html" class="btn">
-                    SHOP NOW →
-                </a>
-
-            </div>
-
-            <div class="hero-number">
-                01 / 03
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- =========================
-         PRODUTOS
-    ========================== -->
-
-    <section class="shop">
-
-        <div class="shop-header">
-
-            <span>SHOP</span>
-
-            <h2>NEW ARRIVALS</h2>
-
-        </div>
-
-
-        <div class="categories">
-
-            <button>ALL</button>
-
-            <button>CAMISETAS</button>
-
-            <button>CALÇAS</button>
-
-            <button>BONÉS</button>
-
-        </div>
-
-
-        <!-- Produtos carregados pela Medusa -->
-        <div class="products"></div>
-
-    </section>
-
-
-    <!-- =========================
-         FUNDO DA SACOLA
-    ========================== -->
-
-    <div
-        class="cart-overlay"
-        id="cart-overlay">
+    <div class="shop-header">
+        <span>SHOP</span>
+        <h2>NEW ARRIVALS</h2>
     </div>
 
+    <div class="categories">
+        <button>ALL</button>
+        <button>CAMISETAS</button>
+        <button>CALÇAS</button>
+        <button>BONÉS</button>
+    </div>
 
-    <!-- =========================
-         SACOLA LATERAL
-    ========================== -->
+    <!-- Produtos carregados pela Medusa -->
+    <div class="products"></div>
 
-    <aside
-        class="cart"
-        id="cart">
+</section>
 
-        <div class="cart-header">
+<!-- FUNDO DA SACOLA -->
+<div
+    class="cart-overlay"
+    id="cart-overlay">
+</div>
 
-            <div>
+<!-- SACOLA LATERAL -->
+<aside
+    class="cart"
+    id="cart">
 
-                <span>SACOLA</span>
+    <div class="cart-header">
 
-                <h2>SEU CARRINHO</h2>
-
-            </div>
-
-
-            <button
-                class="cart-close"
-                id="cart-close">
-
-                ×
-
-            </button>
-
+        <div>
+            <span>SACOLA</span>
+            <h2>SEU CARRINHO</h2>
         </div>
 
+        <button
+            class="cart-close"
+            id="cart-close">
+            ×
+        </button>
 
-        <!-- Produtos adicionados -->
-        <div id="cart-items">
+    </div>
 
-            <p>
-                Sua sacola está vazia.
-            </p>
+    <!-- Produtos adicionados -->
+    <div id="cart-items">
+        <p>Sua sacola está vazia.</p>
+    </div>
 
-        </div>
+    <!-- Resumo da compra -->
+    <div
+        class="cart-summary"
+        id="cart-summary">
+    </div>
 
+</aside>
 
-        <!-- Resumo da compra -->
-        <div
-            class="cart-summary"
-            id="cart-summary">
-        </div>
+<script src="script.js"></script>
 
-    </aside>
-
-
-    <script src="script.js"></script>
 
 </body>
 
 </html>
-```
