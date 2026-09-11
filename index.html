@@ -2,95 +2,229 @@
 <html lang="pt-br">
 
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Flower</title>
+
     <link rel="stylesheet" href="style.css">
+
 </head>
+
 
 <body>
 
 
 <header>
+
     <h1>FLOWER</h1>
 
     <nav>
+
         <a href="loja.html">LOJA</a>
+
         <a href="sobre.html">SOBRE</a>
+
         <a href="contato.html">CONTATO</a>
 
         <a href="#cart" id="cart-link">
             SACOLA (<span id="cart-count">0</span>)
         </a>
+
     </nav>
+
 </header>
 
-<!-- BANNER / HERO -->
+
+
+<!-- =========================
+     BANNER / HERO
+========================= -->
+
 <section class="hero" id="hero">
 
     <!-- O JavaScript irá colocar os banners aqui -->
+
     <div id="banner-container"></div>
 
+
+    <!-- CONTROLES DO CARROSSEL -->
+
+    <button
+        class="banner-prev"
+        id="banner-prev">
+        ←
+    </button>
+
+
+    <button
+        class="banner-next"
+        id="banner-next">
+        →
+    </button>
+
+
+    <div class="banner-controls">
+
+        <span id="banner-number">
+            01 / 01
+        </span>
+
+
+        <div id="banner-dots"></div>
+
+    </div>
+
 </section>
 
-<!-- PRODUTOS -->
+
+
+<!-- =========================
+     PRODUTOS
+========================= -->
+
 <section class="shop">
 
+
     <div class="shop-header">
-        <span>SHOP</span>
-        <h2>NEW ARRIVALS</h2>
+
+        <span>
+            SHOP
+        </span>
+
+        <h2>
+            NEW ARRIVALS
+        </h2>
+
     </div>
+
+
+
+    <!-- =========================
+         CATEGORIAS
+    ========================= -->
 
     <div class="categories">
-        <button>ALL</button>
-        <button>CAMISETAS</button>
-        <button>CALÇAS</button>
-        <button>BONÉS</button>
+
+        <button data-category="all">
+            ALL
+        </button>
+
+
+        <button data-category="camisetas">
+            CAMISETAS
+        </button>
+
+
+        <button data-category="bones">
+            BONÉS
+        </button>
+
+
+        <button data-category="eco-bags">
+            ECO BAGS
+        </button>
+
     </div>
 
-    <!-- Produtos carregados pela Medusa -->
+
+
+    <!-- =========================
+         PRODUTOS
+    ========================= -->
+
+    <!-- Os produtos são carregados pela Medusa -->
+
     <div class="products"></div>
+
 
 </section>
 
-<!-- FUNDO DA SACOLA -->
+
+
+<!-- =========================
+     FUNDO DA SACOLA
+========================= -->
+
 <div
     class="cart-overlay"
     id="cart-overlay">
 </div>
 
-<!-- SACOLA LATERAL -->
+
+
+<!-- =========================
+     SACOLA LATERAL
+========================= -->
+
 <aside
     class="cart"
     id="cart">
 
+
     <div class="cart-header">
 
+
         <div>
-            <span>SACOLA</span>
-            <h2>SEU CARRINHO</h2>
+
+            <span>
+                SACOLA
+            </span>
+
+
+            <h2>
+                SEU CARRINHO
+            </h2>
+
         </div>
+
 
         <button
             class="cart-close"
             id="cart-close">
+
             ×
+
         </button>
 
+
     </div>
 
-    <!-- Produtos adicionados -->
+
+
+    <!-- =========================
+         PRODUTOS DA SACOLA
+    ========================= -->
+
     <div id="cart-items">
-        <p>Sua sacola está vazia.</p>
+
+        <p>
+            Sua sacola está vazia.
+        </p>
+
     </div>
 
-    <!-- Resumo da compra -->
+
+
+    <!-- =========================
+         RESUMO DA COMPRA
+    ========================= -->
+
     <div
         class="cart-summary"
         id="cart-summary">
     </div>
 
+
 </aside>
+
+
+
+<!-- =========================
+     JAVASCRIPT
+========================= -->
 
 <script src="script.js"></script>
 

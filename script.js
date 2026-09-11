@@ -4,7 +4,6 @@
 
 const MEDUSA_URL = "https://flower-commerce.onrender.com";
 
-
 const MEDUSA_PUBLISHABLE_KEY = "pk_bfdf9ae998aac94cf927890930f718533d9e59455d551e9121669806e4d5fcf4";
 
 const MEDUSA_REGION_ID =
@@ -44,6 +43,10 @@ const productsContainer =
 let produtos = [];
 
 let banners = [];
+
+let bannerAtual = 0;
+
+let intervaloBanners = null;
 
 const carrinho = [];
 
@@ -170,7 +173,7 @@ async function carregarProdutos() {
 
         const resposta = await fetch(
 
-            `${MEDUSA_URL}/store/products?fields=*variants.calculated_price,*images,*variants.images&region_id=${MEDUSA_REGION_ID}`,
+            `${MEDUSA_URL}/store/products?fields=*variants.calculated_price,*images,*variants.images,*categories&region_id=${MEDUSA_REGION_ID}`,
 
             {
                 method: "GET",
@@ -302,17 +305,6 @@ async function carregarBanners() {
         );
 
 
-        /*
-           Primeiro verificamos a resposta como TEXTO.
-
-           Isso evita o erro:
-
-           Unexpected token 'O', "OK" is not valid JSON
-
-           porque a API pode responder "OK"
-           em vez de JSON.
-        */
-
         const textoResposta =
             await resposta.text();
 
@@ -336,11 +328,6 @@ async function carregarBanners() {
         }
 
 
-        /*
-           Se a resposta estiver vazia,
-           não tentamos transformar em JSON.
-        */
-
         if (!textoResposta.trim()) {
 
             console.warn(
@@ -349,18 +336,10 @@ async function carregarBanners() {
 
             banners = [];
 
-            mostrarBanners();
-
             return;
 
         }
 
-
-        /*
-           Tentamos transformar a resposta
-           em JSON somente se ela realmente
-           estiver em formato JSON.
-        */
 
         let dados;
 
@@ -376,14 +355,6 @@ async function carregarBanners() {
                 "Resposta recebida:",
                 textoResposta
             );
-
-
-            /*
-               Caso a API responda simplesmente "OK",
-               não quebramos o restante do site.
-
-               Mantemos o banner padrão do HTML.
-            */
 
             banners = [];
 
@@ -404,13 +375,33 @@ async function carregarBanners() {
                 : [];
 
 
+        /* =========================
+           ORDENAR BANNERS
+        ========================= */
+
+        banners.sort(
+            function (a, b) {
+
+                return (
+                    (a.sort_order || 0) -
+                    (b.sort_order || 0)
+                );
+
+            }
+        );
+
+
         console.log(
             "Quantidade de banners:",
             banners.length
         );
 
 
+        bannerAtual = 0;
+
         mostrarBanners();
+
+        iniciarCarrossel();
 
 
     } catch (erro) {
@@ -436,6 +427,16 @@ function mostrarBanners() {
             "#banner-container"
         );
 
+    const bannerNumber =
+        document.querySelector(
+            "#banner-number"
+        );
+
+    const bannerDots =
+        document.querySelector(
+            "#banner-dots"
+        );
+
 
     if (!bannerContainer) {
 
@@ -448,15 +449,10 @@ function mostrarBanners() {
     }
 
 
-    /*
-       Se nenhum banner veio da API,
-       mantemos o banner padrão do HTML.
-    */
-
     if (banners.length === 0) {
 
         console.log(
-            "Nenhum banner válido recebido. Mantendo banner padrão."
+            "Nenhum banner disponível."
         );
 
         return;
@@ -464,14 +460,28 @@ function mostrarBanners() {
     }
 
 
+    /* =========================
+       PROTEÇÃO DO ÍNDICE
+    ========================= */
+
+    if (bannerAtual >= banners.length) {
+
+        bannerAtual = 0;
+
+    }
+
+
+    if (bannerAtual < 0) {
+
+        bannerAtual =
+            banners.length - 1;
+
+    }
+
+
     const banner =
-        banners[0];
+        banners[bannerAtual];
 
-
-    /*
-       Verificação de segurança:
-       precisamos ter uma imagem válida.
-    */
 
     if (
         !banner ||
@@ -479,7 +489,7 @@ function mostrarBanners() {
     ) {
 
         console.warn(
-            "Banner recebido sem image_url:",
+            "Banner sem imagem:",
             banner
         );
 
@@ -488,13 +498,16 @@ function mostrarBanners() {
     }
 
 
+    /* =========================
+       CONTEÚDO DO BANNER
+    ========================= */
+
     bannerContainer.innerHTML = `
 
         <img
             src="${banner.image_url}"
             alt="${banner.title || "Campanha FLOWER"}"
         >
-
 
         <div class="hero-info">
 
@@ -508,11 +521,15 @@ function mostrarBanners() {
                     : ""
             }
 
-
-            <h2>
-                ${banner.title || ""}
-            </h2>
-
+            ${
+                banner.title
+                    ? `
+                        <h2>
+                            ${banner.title}
+                        </h2>
+                    `
+                    : ""
+            }
 
             ${
                 banner.button_text
@@ -529,21 +546,285 @@ function mostrarBanners() {
 
         </div>
 
-
-        <div class="hero-number">
-
-            01 / ${String(
-                banners.length
-            ).padStart(2, "0")}
-
-        </div>
-
     `;
+
+
+    /* =========================
+       CONTADOR
+    ========================= */
+
+    if (bannerNumber) {
+
+        bannerNumber.textContent =
+            `${String(bannerAtual + 1).padStart(2, "0")} / ${String(banners.length).padStart(2, "0")}`;
+
+    }
+
+
+    /* =========================
+       PONTINHOS
+    ========================= */
+
+    if (bannerDots) {
+
+        bannerDots.innerHTML = "";
+
+
+        banners.forEach(
+            function (_, index) {
+
+                const dot =
+                    document.createElement(
+                        "button"
+                    );
+
+
+                dot.classList.add(
+                    "banner-dot"
+                );
+
+
+                if (
+                    index === bannerAtual
+                ) {
+
+                    dot.classList.add(
+                        "active"
+                    );
+
+                }
+
+
+                dot.setAttribute(
+                    "aria-label",
+                    `Ir para o banner ${index + 1}`
+                );
+
+
+                dot.addEventListener(
+                    "click",
+                    function () {
+
+                        bannerAtual =
+                            index;
+
+                        mostrarBanners();
+
+                        reiniciarCarrossel();
+
+                    }
+                );
+
+
+                bannerDots.appendChild(
+                    dot
+                );
+
+            }
+        );
+
+    }
 
 
     console.log(
         "Banner exibido:",
+        bannerAtual + 1,
         banner
+    );
+
+}
+
+
+/* =========================
+   PRÓXIMO BANNER
+========================= */
+
+function proximoBanner() {
+
+    if (banners.length === 0) {
+        return;
+    }
+
+
+    bannerAtual++;
+
+
+    if (
+        bannerAtual >= banners.length
+    ) {
+
+        bannerAtual = 0;
+
+    }
+
+
+    mostrarBanners();
+
+}
+
+
+/* =========================
+   BANNER ANTERIOR
+========================= */
+
+function bannerAnterior() {
+
+    if (banners.length === 0) {
+        return;
+    }
+
+
+    bannerAtual--;
+
+
+    if (bannerAtual < 0) {
+
+        bannerAtual =
+            banners.length - 1;
+
+    }
+
+
+    mostrarBanners();
+
+}
+
+
+/* =========================
+   INICIAR CARROSSEL
+========================= */
+
+function iniciarCarrossel() {
+
+    pararCarrossel();
+
+
+    intervaloBanners =
+        setInterval(
+            function () {
+
+                proximoBanner();
+
+            },
+            5000
+        );
+
+}
+
+
+/* =========================
+   PARAR CARROSSEL
+========================= */
+
+function pararCarrossel() {
+
+    if (intervaloBanners) {
+
+        clearInterval(
+            intervaloBanners
+        );
+
+        intervaloBanners = null;
+
+    }
+
+}
+
+
+/* =========================
+   REINICIAR CARROSSEL
+========================= */
+
+function reiniciarCarrossel() {
+
+    pararCarrossel();
+
+    iniciarCarrossel();
+
+}
+
+
+/* =========================
+   SETA ESQUERDA
+========================= */
+
+const bannerPrev =
+    document.querySelector(
+        "#banner-prev"
+    );
+
+
+if (bannerPrev) {
+
+    bannerPrev.addEventListener(
+        "click",
+        function () {
+
+            bannerAnterior();
+
+            reiniciarCarrossel();
+
+        }
+    );
+
+}
+
+
+/* =========================
+   SETA DIREITA
+========================= */
+
+const bannerNext =
+    document.querySelector(
+        "#banner-next"
+    );
+
+
+if (bannerNext) {
+
+    bannerNext.addEventListener(
+        "click",
+        function () {
+
+            proximoBanner();
+
+            reiniciarCarrossel();
+
+        }
+    );
+
+}
+
+
+/* =========================
+   PAUSAR AO PASSAR O MOUSE
+========================= */
+
+const hero =
+    document.querySelector(
+        "#hero"
+    );
+
+
+if (hero) {
+
+    hero.addEventListener(
+        "mouseenter",
+        function () {
+
+            pararCarrossel();
+
+        }
+    );
+
+
+    hero.addEventListener(
+        "mouseleave",
+        function () {
+
+            iniciarCarrossel();
+
+        }
     );
 
 }
@@ -553,7 +834,7 @@ function mostrarBanners() {
    MOSTRAR PRODUTOS
 ========================= */
 
-function mostrarProdutos() {
+function mostrarProdutos(categoria = "all") {
 
     if (!productsContainer) {
 
@@ -569,11 +850,37 @@ function mostrarProdutos() {
     productsContainer.innerHTML = "";
 
 
-    if (produtos.length === 0) {
+    /* =========================
+       FILTRAR PRODUTOS
+    ========================= */
+
+    const produtosFiltrados =
+        categoria === "all"
+            ? produtos
+            : produtos.filter(
+                function (produto) {
+
+                    return produto.categories?.some(
+                        function (cat) {
+
+                            return cat.handle === categoria;
+
+                        }
+                    );
+
+                }
+            );
+
+
+    /* =========================
+       NENHUM PRODUTO
+    ========================= */
+
+    if (produtosFiltrados.length === 0) {
 
         productsContainer.innerHTML = `
-            <p>
-                Nenhum produto disponível.
+            <p class="loading-products">
+                NENHUM PRODUTO NESSA CATEGORIA.
             </p>
         `;
 
@@ -582,7 +889,11 @@ function mostrarProdutos() {
     }
 
 
-    produtos.forEach(
+    /* =========================
+       CRIAR CARDS
+    ========================= */
+
+    produtosFiltrados.forEach(
         function (produto) {
 
             const imagem =
@@ -652,6 +963,10 @@ function mostrarProdutos() {
             `;
 
 
+            /* =========================
+               IMAGEM DO PRODUTO
+            ========================= */
+
             const imagemElemento =
                 card.querySelector(
                     ".product-image img"
@@ -703,6 +1018,10 @@ function mostrarProdutos() {
             );
 
 
+            /* =========================
+               BOTÃO ADD TO BAG
+            ========================= */
+
             const botao =
                 card.querySelector(
                     ".add-bag"
@@ -728,6 +1047,37 @@ function mostrarProdutos() {
     );
 
 }
+
+
+/* =========================
+   CATEGORIAS
+========================= */
+
+const botoesCategorias =
+    document.querySelectorAll(
+        ".categories button"
+    );
+
+
+botoesCategorias.forEach(
+    function (botao) {
+
+        botao.addEventListener(
+            "click",
+            function () {
+
+                const categoria =
+                    botao.dataset.category;
+
+                mostrarProdutos(
+                    categoria
+                );
+
+            }
+        );
+
+    }
+);
 
 
 /* =========================
@@ -982,6 +1332,10 @@ function mostrarCarrinho() {
     cartSummary.innerHTML = "";
 
 
+    /* =========================
+       CARRINHO VAZIO
+    ========================= */
+
     if (carrinho.length === 0) {
 
         cartItems.innerHTML = `
@@ -1035,6 +1389,10 @@ function mostrarCarrinho() {
 
     let total = 0;
 
+
+    /* =========================
+       PRODUTOS DO CARRINHO
+    ========================= */
 
     carrinho.forEach(
         function (produto, index) {
@@ -1119,7 +1477,9 @@ function mostrarCarrinho() {
             `;
 
 
-            /* DIMINUIR */
+            /* =========================
+               DIMINUIR QUANTIDADE
+            ========================= */
 
             const botaoMenos =
                 item.querySelector(
@@ -1158,7 +1518,9 @@ function mostrarCarrinho() {
             }
 
 
-            /* AUMENTAR */
+            /* =========================
+               AUMENTAR QUANTIDADE
+            ========================= */
 
             const botaoMais =
                 item.querySelector(
@@ -1185,7 +1547,9 @@ function mostrarCarrinho() {
             }
 
 
-            /* REMOVER */
+            /* =========================
+               REMOVER
+            ========================= */
 
             const botaoRemover =
                 item.querySelector(
@@ -1304,11 +1668,6 @@ console.log(
     "TESTE FLOWER 123"
 );
 
-
-/*
-   Produtos e banners são carregados
-   separadamente.
-*/
 
 carregarProdutos();
 
