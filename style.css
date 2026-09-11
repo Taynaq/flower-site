@@ -791,3 +791,171 @@ section.hero {
         bottom: 5%;
     }
 }
+
+/* =========================
+   CHECKOUT
+========================= */
+
+.checkout {
+    padding: 80px 45px;
+    min-height: calc(100vh - 81px);
+}
+
+.checkout-header {
+    margin-bottom: 60px;
+}
+
+.checkout-header span {
+    color: #f5a900;
+    font-size: 12px;
+    letter-spacing: 5px;
+}
+
+.checkout-header h2 {
+    font-size: 38px;
+    letter-spacing: 5px;
+    margin: 12px 0 0;
+}
+
+.checkout-content {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 80px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.checkout-form,
+.checkout-summary {
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    padding: 35px;
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.checkout-form h3,
+.checkout-summary h3 {
+    font-size: 14px;
+    letter-spacing: 3px;
+    margin: 0 0 30px;
+}
+
+.checkout-form h3:not(:first-child) {
+    margin-top: 45px;
+}
+
+.checkout-form label {
+    display: block;
+    font-size: 11px;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.checkout-form input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 14px;
+    margin-bottom: 22px;
+
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+
+    color: white;
+    outline: none;
+
+    transition: border-color 0.3s ease;
+}
+
+.checkout-form input:focus {
+    border-color: #f5a900;
+}
+
+.checkout-form input::placeholder {
+    color: rgba(255, 255, 255, 0.35);
+}
+
+.checkout-row {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 20px;
+}
+
+.checkout-button {
+    width: 100%;
+    margin-top: 20px;
+    padding: 16px;
+
+    background: #f5a900;
+    border: 1px solid #f5a900;
+
+    color: #000;
+    font-size: 12px;
+    letter-spacing: 3px;
+
+    cursor: pointer;
+
+    transition: 0.3s ease;
+}
+
+.checkout-button:hover {
+    background: transparent;
+    color: #f5a900;
+}
+
+.checkout-summary {
+    height: fit-content;
+}
+
+#checkout-items {
+    margin-bottom: 35px;
+}
+
+.checkout-total {
+    display: flex;
+    justify-content: space-between;
+
+    padding-top: 25px;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+
+    font-size: 13px;
+    letter-spacing: 2px;
+}
+
+.checkout-total strong {
+    color: #f5a900;
+}
+
+
+/* =========================
+   CHECKOUT — CELULAR
+========================= */
+
+@media (max-width: 768px) {
+
+    .checkout {
+        padding: 50px 20px;
+    }
+
+    .checkout-header {
+        margin-bottom: 35px;
+    }
+
+    .checkout-header h2 {
+        font-size: 28px;
+    }
+
+    .checkout-content {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .checkout-form,
+    .checkout-summary {
+        padding: 25px;
+    }
+
+    .checkout-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+}

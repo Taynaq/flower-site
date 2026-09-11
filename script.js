@@ -1636,6 +1636,10 @@ function mostrarCarrinho() {
     `;
 
 
+    /* =========================
+       IR PARA CHECKOUT
+    ========================= */
+
     const checkoutButton =
         document.querySelector(
             "#checkout-button"
@@ -1648,9 +1652,14 @@ function mostrarCarrinho() {
             "click",
             function () {
 
-                alert(
-                    "O checkout será configurado na próxima etapa."
+                localStorage.setItem(
+                    "flowerCarrinho",
+                    JSON.stringify(carrinho)
                 );
+
+
+                window.location.href =
+                    "/checkout.html";
 
             }
         );

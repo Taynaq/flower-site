@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Checkout | FLOWER</title>
+
+    <link
+        rel="stylesheet"
+        href="./style.css">
+    >
+
+</head>
+
+
+<body>
+
+    <header>
+
+        <h1>FLOWER</h1>
+
+        <nav>
+
+            <a href="index.html">
+                LOJA
+            </a>
+
+            <a href="sobre.html">
+                SOBRE
+            </a>
+
+            <a href="contato.html">
+                CONTATO
+            </a>
+
+        </nav>
+
+    </header>
+
+
+    <main class="checkout">
+
+
+        <div class="checkout-header">
+
+            <span>
+                FLOWER
+            </span>
+
+            <h2>
+                FINALIZAR COMPRA
+            </h2>
+
+        </div>
+
+
+        <section class="checkout-content">
+
+
+            <!-- =========================
+                 FORMULÁRIO
+            ========================== -->
+
+            <div class="checkout-form">
+
+
+                <h3>
+                    SEUS DADOS
+                </h3>
+
+
+                <label for="nome">
+                    Nome completo
+                </label>
+
+                <input
+                    type="text"
+                    id="nome"
+                    placeholder="Seu nome"
+                >
+
+
+                <label for="email">
+                    E-mail
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="seuemail@email.com"
+                >
+
+
+                <label for="telefone">
+                    Telefone
+                </label>
+
+                <input
+                    type="tel"
+                    id="telefone"
+                    placeholder="(00) 00000-0000"
+                >
+
+
+                <h3>
+                    ENDEREÇO
+                </h3>
+
+
+                <label for="cep">
+                    CEP
+                </label>
+
+                <input
+                    type="text"
+                    id="cep"
+                    placeholder="00000-000"
+                >
+
+
+                <label for="endereco">
+                    Endereço
+                </label>
+
+                <input
+                    type="text"
+                    id="endereco"
+                    placeholder="Rua, avenida..."
+                >
+
+
+                <div class="checkout-row">
+
+
+                    <div>
+
+                        <label for="numero">
+                            Número
+                        </label>
+
+                        <input
+                            type="text"
+                            id="numero"
+                            placeholder="123"
+                        >
+
+                    </div>
+
+
+                    <div>
+
+                        <label for="complemento">
+                            Complemento
+                        </label>
+
+                        <input
+                            type="text"
+                            id="complemento"
+                            placeholder="Opcional"
+                        >
+
+                    </div>
+
+
+                </div>
+
+
+                <label for="cidade">
+                    Cidade
+                </label>
+
+                <input
+                    type="text"
+                    id="cidade"
+                    placeholder="Sua cidade"
+                >
+
+
+                <label for="estado">
+                    Estado
+                </label>
+
+                <input
+                    type="text"
+                    id="estado"
+                    placeholder="UF"
+                >
+
+
+                <button
+                    class="checkout-button"
+                    type="button"
+                >
+                    CONTINUAR
+                </button>
+
+
+            </div>
+
+
+
+            <!-- =========================
+                 RESUMO DO PEDIDO
+            ========================== -->
+
+            <aside class="checkout-summary">
+
+
+                <h3>
+                    SEU PEDIDO
+                </h3>
+
+
+                <div id="checkout-items">
+
+                    <p>
+                        Carregando produtos...
+                    </p>
+
+                </div>
+
+
+                <div class="checkout-total">
+
+                    <span>
+                        TOTAL
+                    </span>
+
+                    <strong id="checkout-total">
+                        R$ 0,00
+                    </strong>
+
+                </div>
+
+
+            </aside>
+
+
+        </section>
+
+
+    </main>
+
+<script src="./checkout.js"></script>
+
+</body>
+
+</html>
